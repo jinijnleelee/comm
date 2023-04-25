@@ -63,7 +63,7 @@
 	
 <!-- 	<tx:annotation-driven proxy-target-class="true"/> -->
 	<tx:annotation-driven transaction-manager="transactionManager"/>
-	
+	<!-- 어노테이션 인식과 매니저 설정.윗줄과 얽혀있음   -->
 	
 	<!-- ==================================== -->
 	
