@@ -14,6 +14,7 @@
      <link rel="stylesheet" href="../resources/css/signUp-style.css">
  
      <script src="https://kit.fontawesome.com/a2e8ca0ae3.js" crossorigin="anonymous"></script>
+     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
  </head>
  <body>
      <main>
@@ -125,18 +126,18 @@
                  </label>
                  
                  <div class="signUp-input-area">
-                     <input type="text" id="memberAddress" name="memberAddress"
+                     <input type="text" id="sample6_postcode" name="memberAddress"
                              placeholder="우편번호" maxlength="6">
                      
-                     <button type="button">검색</button>
+                     <button type="button" onclick="sample6_execDaumPostcode()" >검색</button>
                  </div>
  
                  <div class="signUp-input-area">
-                     <input type="text" name="memberAddress" placeholder="도로명주소">
+                     <input type="text"  id="sample6_address"  name="memberAddress" placeholder="도로명주소">
                  </div>
  
                  <div class="signUp-input-area">
-                     <input type="text" name="memberAddress" placeholder="상세주소">
+                     <input type="text"  id="sample6_detailAddress" name="memberAddress" placeholder="상세주소">
                  </div>
  
                  <button type="submit" id="signUp-btn">가입하기</button>

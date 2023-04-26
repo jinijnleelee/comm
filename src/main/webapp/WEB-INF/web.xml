@@ -20,7 +20,9 @@ WAS(web Application server) : 동적 웹(요청에 따라 응답페이지 생성
 	<!-- The definition of the Root Spring Container shared by all Servlets and Filters -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:spring/root-context.xml</param-value>
+		<param-value>
+			classpath:spring/root-context.xml
+			classpath:spring/spring-security.xml</param-value>
 	</context-param>
 	<!-- 빌드패스에 있는 애들을 classpath라고 쓰면 알아서 자동으로 위치를 찾아준다  -->
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->

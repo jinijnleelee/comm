@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -248,5 +249,141 @@ public class MemberController {
 		return "member/signUp";
 	}
 	
+
+	//이메일 중복 검사
+	@ResponseBody //ajax응답시 사용!
+	@GetMapping("/emailDupCheck") 
+	public int emailDupCheck( String memberEmail) {
+		//	public String emailDupCheck(  RequestParam("memberEmail") String memberEmail) {  // 파라미터 key값과 저장하려는변수 명이 같으면 생략 가능! 
+	int result = service.emailDupCheck(memberEmail);
+	
+	
+	/*
+	 * 
+	 * 컨트롤러에서 반환되는 값은 forward 또는 redirect를 위한 경로인 경우가 일반적
+	 * -> 반환되는 값은 경로로 인식됨
+	 * 
+	 * -> 이를 해결하기위한 어노테이션 @ResponseBody 가 존재함
+	 * @ResponseBody : 반환되는 값을 응답의 몸통에 추가하여
+	 * 이전요청 주소로 돌아감
+	 * 
+	 * -> 컨트롤러에서 반환되는 값이 경로가 아닌 "값 자체"로 인식됨.
+	 * 
+	 *  pom에 제이슨 추가 
+	 * 
+	 * 
+	 * */
+	
+	return result;
+		
+	}
+	
+	
+	
+	
+	@ResponseBody //ajax응답시 사용!
+	@GetMapping("/nicknameDupCheck") 
+	public int nicknameDupCheck(String memberNickname) {
+		int result = service.nicknameDupCheck(memberNickname);
+		
+		return result;
+	}
+	
+
+
+	// 회원가입 
+	@PostMapping("/signUp")
+	public String signUp( /*@ModelAttribute*/ Member inputMember,
+						Model model,
+						RedirectAttributes ra,
+						HttpServletResponse resp,
+						HttpServletRequest req
+						) {
+		
+		// 커맨드 객체 
+		// @ModelAttribute 생략된 상태에서 파라미터가 필드에 세팅된 객체
+		
+	
+
+		
+		// 아이디, 비밀번호가 일치하는 회원 정보를 조회하는 Service 호출 후 결과 반환 받기
+		int result  = service.signUp(inputMember);
+		
+		
+
+		if(result == 1 ) { // 로그인 성공 시
+			
+			ra.addFlashAttribute("message", "회원가입 성공 ");
+		
+			
+			
+		} else {
+			//model.addAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			
+			ra.addFlashAttribute("message", "회원가입 실패 ");
+			
+			// redirect 시에도 request scope로 세팅된 데이터가 유지될 수 있도록 하는 방법을
+			// Spring 에서 제공해줌
+			// -> RedirectAttributes 객체 (컨트롤러 매개변수에 작성하면 사용 가능)
+			
+			
+		}
+		
+		
+		return "redirect:/"; 
+	}
+	
+	
+
+
+
+//회원 1명 정보 조회 (ajax)
+
+	@PostMapping("/selectOne")
+	public String selectOne( /*@ModelAttribute*/ Member inputMember,
+						Model model,
+						RedirectAttributes ra,
+						HttpServletResponse resp,
+						HttpServletRequest req
+						 ) {
+		
+		// 커맨드 객체 
+		// @ModelAttribute 생략된 상태에서 파라미터가 필드에 세팅된 객체
+		
+
+		
+		
+		
+		// 아이디, 비밀번호가 일치하는 회원 정보를 조회하는 Service 호출 후 결과 반환 받기
+		Member member = service.selectOne(inputMember);
+		
+
+		if(member == null ) { // 로그인 성공 시
+			
+			ra.addFlashAttribute("message", "없음 ");
+		
+			
+			
+		} else {
+			//model.addAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다.");
+			
+			
+			
+			// redirect 시에도 request scope로 세팅된 데이터가 유지될 수 있도록 하는 방법을
+			// Spring 에서 제공해줌
+			// -> RedirectAttributes 객체 (컨트롤러 매개변수에 작성하면 사용 가능)
+			
+			
+		}
+		
+		
+		return member; 
+	}
+	
 	
 }
+
+
+
+
+//회원 목록 조회  (ajax)

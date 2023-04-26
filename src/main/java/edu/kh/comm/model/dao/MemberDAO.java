@@ -5,9 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import edu.kh.comm.member.controller.MemberController;
 import edu.kh.comm.member.model.vo.Member;
+import lombok.Getter;
 
 @Repository//데이터 저장소.영속성(지속 가능한 성질을 가지고 있는 것 )을 가지는 db파일과 연결되는 클래스 임을 명시 + bean 등록 
 public class MemberDAO {
@@ -49,6 +51,26 @@ public class MemberDAO {
 		return loginMember;
 		
 		
+	}
+	
+	public int emailDupCheck(String memberEmail) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.emailDupCheck" , memberEmail);
+	}
+	
+	public int nicknameDupCheck(String memberNickname) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.nicknameDupCheck" , memberNickname);
+	}
+
+	public int signUp(Member inputMember) {
+		// TODO Auto-generated method stub
+		return sqlSession.insert("memberMapper.signUp" , inputMember);
+	}
+
+	public Member selectOne(Member inputMember) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.selectOne" , inputMember);
 	}
 
 }
