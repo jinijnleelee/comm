@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace ="myPageMapper">
+
+
+
+
+
+	  <resultMap type="member" id="member_rm">
+	  <id property="memberNo" column="MEMBER_NO" />
+	
+		
+		<result property="member" 		column="MEMBER_EMAIL"/>
+		<result property="memberPw" 		column="MEMBER_PW"/>
+		<result property="memberNickname" 	column="MEMBER_NICK"/>
+		<result property="memberTel" 		column="MEMBER_TEL"/>
+		<result property="memberAddress" 	column="MEMBER_ADDR"/>
+		<result property="profileImage" 	column="PROFILE_IMG"/>
+		<result property="enrollDate" 		column="ENROLL_DT"/>
+		<result property="secessionFlag" 	column="SECESSION_FL"/>
+	  
+	  </resultMap>
+	  
+	  
+<update id="changePw" parameterType="string" >
+
+		UPDATE MEMBER_S SET
+		MEMBER_PW = ?
+		WHERE MEMBER_NO = ?
+		AND MEMBER_PW = ?
+
+
+
+</update>
+</mapper>

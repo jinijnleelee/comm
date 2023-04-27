@@ -1,5 +1,7 @@
 package edu.kh.comm.member.controller;
 
+import java.util.HashMap;
+
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,15 +14,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.google.gson.Gson;
 
 import edu.kh.comm.member.model.service.MemberService;
 import edu.kh.comm.member.model.vo.Member;
@@ -335,10 +343,8 @@ public class MemberController {
 	
 	
 
-
-
 //회원 1명 정보 조회 (ajax)
-
+	@ResponseBody
 	@PostMapping("/selectOne")
 	public String selectOne( /*@ModelAttribute*/ Member inputMember,
 						Model model,
@@ -377,13 +383,57 @@ public class MemberController {
 		}
 		
 		
-		return member; 
+		return new Gson().toJson(member) ; 
 	}
 	
 	
-}
+
+
 
 
 
 
 //회원 목록 조회  (ajax)
+
+
+
+
+/*스프링 예외 처리 방법 (3가지 , 중복 사용 가능 )
+ * 
+ * 
+ * 1 순위 : 메서드 별로 예외처리(try-catch / throws)
+ * 
+ * 2 순위 : 하나의 컨트롤러에서 발생하는 예외를 모아서 처리 
+ * 				-> @ExceptionHandler	(메서드에 작성)
+ * 
+ * 
+ * 3 순위 : 전역(웹 애플리케이션)에서 발생하는 예외를 모아서 처리
+ * 			-> @ControllerAdvice (클래스에 작성 )
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * 
+ * */
+
+//회원 컨트롤러에서 발생하는 모든예외를 모아서 처리 
+//@ExceptionHandler(Exception.class)
+//public String exceptionHandler(Exception e, Model model) {
+//
+//e.printStackTrace();
+//model.addAttribute("errorMessage","서비스 이용 중 문제가 발생했습니다.");
+//model.addAttribute("e",e);
+//
+//return "common/error";
+//
+//}
+}
+
+
+//MyPageController
+//MyPageService
+//MyPageServiceImpl
+//MyPageDAO
+//myPage-mapper

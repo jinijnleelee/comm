@@ -189,6 +189,24 @@
 
 
 )
+
 	</select>	 
+	
+	
+	
+		<select id="selectOne" parameterType="member" resultType="string">
+			SELECT MEMBER_EMAIL, MEMBER_NICK, MEMBER_TEL, MEMBER_ADDR, 
+		   TO_CHAR( ENROLL_DT, 'YYYY"년" MM"월" DD"일"'  ) AS ENROLL_DATE
+		FROM MEMBER
+		WHERE MEMBER_EMAIL = #{memberEmail}
+		AND SECESSION_FL = 'N'
+
+
+)
+
+	</select>	
+	
+
+	
 
 </mapper>

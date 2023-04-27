@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService{
 	 * 
 	 * */
 	
-	//암호화를 위한 Bcrypt 갹채 의존성 주입 (DI)
+	//암호화를 위한 Bcrypt 객채 의존성 주입 (DI)
 	@Autowired
 	private BCryptPasswordEncoder Bcrypt;
 	private Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
