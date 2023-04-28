@@ -303,32 +303,62 @@ public class MemberController {
 	@PostMapping("/signUp")
 	public String signUp( /*@ModelAttribute*/ Member inputMember,
 						Model model,
-						RedirectAttributes ra,
+						String[] memberAddress,
+						RedirectAttributes ra, //잠깐세션에서 올렸다가 리퀘스트로 다시 담으려고 .메세지 담음 
 						HttpServletResponse resp,
 						HttpServletRequest req
 						) {
 		
-		// 커맨드 객체 
-		// @ModelAttribute 생략된 상태에서 파라미터가 필드에 세팅된 객체
+		
+		
+		// 커맨드 객체(엥? )를 이용해서 입력된 회원 정보를 잘 받아옴 
+		// 단, 같은 name을 가진 주소가 하나의 문자열로 합쳐서 세팅되어 들어옴.
+		//->  도로명 주소에 "," 기호가 포함되는 경우가 있어 이를 구분자로 사용할 수 없다.
+		//String.join(", , ", memberAddress);
+		
+		//String.join('구분자', 배열)
+		inputMember.setMemberAddress(String.join(", , ", memberAddress));
+		// 배열을 하나의 문자열로 합치는 메서드
+		// 값 중간중간에 구분자가 들어가서 하나의 문자열로 합쳐줌
+		//[a,b,c] -> join 진행 -> "a,,b,,c"
+		
+		if(inputMember.getMemberAddress().equals(",,,,")) {// 주소가 입력되지 않은 경우
+			inputMember.setMemberAddress(null); // null 로 변환
+		}
+		
+		// 회원가입 서비스 호출 
+		
+		
+		
+		
 		
 	
 
-		
+		// @ModelAttribute 생략된 상태에서 파라미터가 필드에 세팅된 객체
 		// 아이디, 비밀번호가 일치하는 회원 정보를 조회하는 Service 호출 후 결과 반환 받기
 		int result  = service.signUp(inputMember);
 		
+		String message = null;
+		String path = null ; 
 		
 
-		if(result == 1 ) { // 로그인 성공 시
+		if(result > 0  ) { // 로그인 성공 시
 			
-			ra.addFlashAttribute("message", "회원가입 성공 ");
+			
+			message = "회원가입 성공!";
+			path = "redirect:/"; //메인페이지
+			
+			
 		
 			
 			
 		} else {
-			//model.addAttribute("message", "아이디 또는 비밀번호가 일치하지 않습니다.");
 			
-			ra.addFlashAttribute("message", "회원가입 실패 ");
+			message = "회원가입 실패!";
+			path = "redirect:/member/signUp"; // 회원가입 페이지 
+			
+			
+		
 			
 			// redirect 시에도 request scope로 세팅된 데이터가 유지될 수 있도록 하는 방법을
 			// Spring 에서 제공해줌
@@ -337,8 +367,8 @@ public class MemberController {
 			
 		}
 		
-		
-		return "redirect:/"; 
+		ra.addFlashAttribute("message", message);
+		return path ; 
 	}
 	
 	

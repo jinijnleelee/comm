@@ -63,8 +63,13 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.nicknameDupCheck" , memberNickname);
 	}
 
+	
+	
 	public int signUp(Member inputMember) {
-		// TODO Auto-generated method stub
+		// INSERT UPDATE DELETE 수행하기 위한 메서드 존재함 
+		// insert() update() delete() 메서드 반환값은 int 고정 
+		// -> mapper에서도 resultType 이 항상 _int로 고정
+		// -> resultType 생략 가능 (묵시적 _int )
 		return sqlSession.insert("memberMapper.signUp" , inputMember);
 	}
 
